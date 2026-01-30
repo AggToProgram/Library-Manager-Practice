@@ -1,0 +1,3 @@
+This is a program I am developing to simulate in console a simple library manager that allows you to access as a client
+(option to sign up or log in) or as the library manager (add new books, check stock, etc). It's a simple WIP basic java
+ code, nothing too fancy, but a good experience for learning.
