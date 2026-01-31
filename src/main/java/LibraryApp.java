@@ -157,7 +157,6 @@ public class LibraryApp {
         System.out.println("2: Check rented books");
         System.out.println("3: Return rented book");
         System.out.println("4: Back");
-        int input = sc.nextInt();
     }
 
     public static void accessAsManager() {
@@ -180,7 +179,6 @@ public class LibraryApp {
                     System.out.println("3: Check loaned books");
                     System.out.println("4: Add a new book");
                     System.out.println("5: Back");
-                    ;
                     int input = sc.nextInt();
 
                     if (input == 1) {
@@ -256,7 +254,7 @@ public class LibraryApp {
                     }
                     newBooks.clear();
                 } catch (IOException ioe) {
-                    ioe.printStackTrace();
+                    System.out.println(ioe.getMessage());
                 }
                 run = false;
             }
