@@ -27,53 +27,9 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello and welcome to the Megalovania Library!");
-
-        try (BufferedReader br = Files.newBufferedReader(libraryFile, Charset.defaultCharset())){
-            String line;
-            while ((line = br.readLine()) != null){
-                String[] parts = line.split(";");
-                int id = Integer.parseInt(parts[0]);
-                String title = parts[1];
-                String author = parts[2];
-                String publishDate = parts[3];
-                int stock = Integer.parseInt(parts[4]);
-                boolean loaned = Boolean.parseBoolean(parts[5]);
-
-                books.add(new Book(id, title, author, publishDate, stock));
-            }
-        } catch (IOException ioe){
-            System.out.println(ioe.getMessage());
-        }
-
-        try (BufferedReader br = Files.newBufferedReader(clientsFile, Charset.defaultCharset())){
-            String line;
-            while ((line = br.readLine()) != null){
-                String[] parts = line.split(";");
-                String name = parts[0];
-                String email = parts[1];
-                String password = parts[2];
-                int id = Integer.parseInt(parts[3]);
-
-                clients.add(new Client(name, email, password, id));
-            }
-        } catch (IOException ioe){
-            System.out.println(ioe.getMessage());
-        }
-
-        try (BufferedReader br = Files.newBufferedReader(loansFile, Charset.defaultCharset())){
-            String line;
-            while ((line = br.readLine()) != null){
-                String[] parts = line.split(";");
-                String bookTitle = parts[0];
-                String client = parts[1];
-                int amount = Integer.parseInt(parts[2]);
-
-                loans.add(new Loan(bookTitle, client, amount));
-            }
-        } catch (IOException ioe){
-            System.out.println(ioe.getMessage());
-        }
-
+        loadBooks();
+        loadClients();
+        loadLoans();
 
         while (running) {
             System.out.println("What do you wish to do?");
@@ -95,6 +51,54 @@ public class Main {
                 default:
                     System.out.println("Invalid option");
             }
+        }
+    }
+
+    public static Book parseBook(String line){
+        String[] parts = line.split(";");
+        return new Book(Integer.parseInt(parts[0]), parts[1], parts[2], parts[3], Integer.parseInt(parts[4]));
+    }
+
+    public static Client parseClient(String line){
+        String[] parts = line.split(";");
+        return new Client(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]));
+    }
+
+    public static Loan parseLoan(String line){
+        String[] parts = line.split(";");
+        return new Loan(parts[0], parts[1], Integer.parseInt(parts[2]));
+    }
+
+    public static void loadBooks(){
+        try (BufferedReader br = Files.newBufferedReader(libraryFile, Charset.defaultCharset())){
+            String line;
+            while ((line = br.readLine()) != null){
+                books.add(parseBook(line));
+            }
+        } catch (IOException ioe){
+            System.out.println(ioe.getMessage());
+        }
+    }
+
+    public static void loadClients(){
+        try (BufferedReader br = Files.newBufferedReader(clientsFile, Charset.defaultCharset())){
+            String line;
+            while ((line = br.readLine()) != null){
+                clients.add(parseClient(line));
+            }
+        } catch (IOException ioe){
+            System.out.println(ioe.getMessage());
+        }
+    }
+
+    public static void loadLoans(){
+        try (BufferedReader br = Files.newBufferedReader(loansFile, Charset.defaultCharset())){
+            String line;
+            while ((line = br.readLine()) != null){
+                loans.add(parseLoan(line));
+            }
+        } catch (IOException ioe){
+            System.out.println(ioe.getMessage());
         }
     }
 
