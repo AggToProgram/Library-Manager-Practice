@@ -16,12 +16,12 @@ public class Main {
     public static String managerUser = "LibraryManager123";
     public static String managerPass = "Library123";
 
-    public static ArrayList<Book> newBooks = new ArrayList<>();
-    public static ArrayList<Book> books = new ArrayList<>();
-    public static ArrayList<Client> clients = new ArrayList<>();
-    public static ArrayList<Loan> loans = new ArrayList<>();
+    private static final ArrayList<Book> newBooks = new ArrayList<>();
+    private static final ArrayList<Book> books = new ArrayList<>();
+    private static final ArrayList<Client> clients = new ArrayList<>();
+    private static final ArrayList<Loan> loans = new ArrayList<>();
 
-    public static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     public static boolean running = true;
 
