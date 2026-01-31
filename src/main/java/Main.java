@@ -31,6 +31,10 @@ public class Main {
         loadClients();
         loadLoans();
 
+        mainAccess();
+    }
+
+    public static void mainAccess(){
         while (running) {
             System.out.println("What do you wish to do?");
             System.out.println("1: Access as Library Manager");
@@ -199,12 +203,6 @@ public class Main {
                 }
             }
         }
-    }
-
-    public static void changePass() {
-        System.out.println("Type your new password: ");
-        sc.nextLine();
-        managerPass = sc.nextLine();
     }
 
     public static Book findBook(String title) {
