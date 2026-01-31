@@ -1,10 +1,10 @@
 
 public class Book {
-    private int id;
-    private String title;
-    private String author;
-    private String publishDate;
-    private int stock;
+    private final int id;
+    private final String title;
+    private final String author;
+    private final String publishDate;
+    private final int stock;
 
     public Book(int id, String title, String author, String publishDate, int stock){
         this.id = id;
@@ -14,22 +14,9 @@ public class Book {
         this.stock = stock;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getTitle() {
         return title;
     }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getPublishDate() {
-        return publishDate;
-    }
-
     public int getStock(){
         return stock;
     }
