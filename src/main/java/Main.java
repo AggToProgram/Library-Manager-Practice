@@ -9,9 +9,9 @@ import java.util.Scanner;
 
 public class Main {
     public static Path p = Paths.get("data");
-    public static Path file = p.resolve("library.txt");
-    public static Path file2 = p.resolve("clients.txt");
-    public static Path file3 = p.resolve("loans.txt");
+    public static Path libraryFile = p.resolve("library.txt");
+    public static Path clientsFile = p.resolve("clients.txt");
+    public static Path loansFile = p.resolve("loans.txt");
 
     public static String managerUser = "LibraryManager123";
     public static String managerPass = "Library123";
@@ -28,7 +28,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello and welcome to the Megalovania Library!");
 
-        try (BufferedReader br = Files.newBufferedReader(file, Charset.defaultCharset())){
+        try (BufferedReader br = Files.newBufferedReader(libraryFile, Charset.defaultCharset())){
             String line;
             while ((line = br.readLine()) != null){
                 String[] parts = line.split(";");
@@ -45,7 +45,7 @@ public class Main {
             System.out.println(ioe.getMessage());
         }
 
-        try (BufferedReader br = Files.newBufferedReader(file2, Charset.defaultCharset())){
+        try (BufferedReader br = Files.newBufferedReader(clientsFile, Charset.defaultCharset())){
             String line;
             while ((line = br.readLine()) != null){
                 String[] parts = line.split(";");
@@ -60,7 +60,7 @@ public class Main {
             System.out.println(ioe.getMessage());
         }
 
-        try (BufferedReader br = Files.newBufferedReader(file3, Charset.defaultCharset())){
+        try (BufferedReader br = Files.newBufferedReader(loansFile, Charset.defaultCharset())){
             String line;
             while ((line = br.readLine()) != null){
                 String[] parts = line.split(";");
@@ -109,7 +109,7 @@ public class Main {
 
             if (input == 1) {
                 clients.add(new Client());
-                try (BufferedWriter br = Files.newBufferedWriter(file2, StandardOpenOption.APPEND)) {
+                try (BufferedWriter br = Files.newBufferedWriter(clientsFile, StandardOpenOption.APPEND)) {
                     for (Client client : clients) {
                         br.newLine();
                         String line = client.toString();
@@ -248,7 +248,7 @@ public class Main {
             String input = sc.nextLine();
 
             if (input.equalsIgnoreCase("N")) {
-                try (BufferedWriter br = Files.newBufferedWriter(file, StandardOpenOption.APPEND)) {
+                try (BufferedWriter br = Files.newBufferedWriter(libraryFile, StandardOpenOption.APPEND)) {
                     for (Book book : newBooks) {
                         br.newLine();
                         String line = book.toString();
