@@ -10,6 +10,7 @@ public class Client {
         this.password = password;
         this.id = id;
     }
+
     public Client(){
         this.name = setName();
         this.email = setEmail();

@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class LibraryApp {
@@ -102,6 +105,43 @@ public class LibraryApp {
         }
     }
 
+    public static void addClient(){
+        clients.add(new Client());
+        try (BufferedWriter bw = Files.newBufferedWriter(clientsFile, StandardOpenOption.APPEND)) {
+            for (Client client : clients) {
+                bw.write(client.toString());
+                bw.newLine();
+            }
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
+
+    public static void logInClient(){
+        System.out.println("Input email/username: ");
+        sc.nextLine();
+        String name = sc.nextLine();
+        System.out.println("Username input: " + name);
+
+        for (Client client : clients) {
+            if (client.getEmail().equals(name) || client.getName().equals(name)) {
+                System.out.println("Input password: ");
+                String pass = sc.nextLine();
+
+                if (client.getPassword().equals(pass)) {
+                    System.out.println("Access granted!");
+                    System.out.println("What do you wish to do now?");
+
+                    postAccessClient();
+                } else {
+                    System.out.println("Wrong password");
+                }
+                return;
+            }
+        }
+        System.out.println("Wrong username/email");
+    }
+
     public static void accessAsClient() {
         boolean run = true;
         while (run) {
@@ -110,44 +150,11 @@ public class LibraryApp {
             System.out.println("3: Back");
             int input = sc.nextInt();
 
-            if (input == 1) {
-                clients.add(new Client());
-                try (BufferedWriter bw = Files.newBufferedWriter(clientsFile, StandardOpenOption.APPEND)) {
-                    for (Client client : clients) {
-                        bw.newLine();
-                        String line = client.toString();
-                        bw.write(line);
-                    }
-                } catch (IOException ioe) {
-                    System.out.println(ioe.getMessage());
-                }
-            } else if (input == 2) {
-                System.out.println("Input email/username: ");
-                sc.nextLine();
-                String name = sc.nextLine();
-                System.out.println(name);
-
-                for (Client client : clients) {
-                    if (client.getEmail().equals(name) || client.getName().equals(name)) {
-                        System.out.println("Input password: ");
-                        String pass = sc.nextLine();
-
-                        if (client.getPassword().equals(pass)) {
-                            System.out.println("Access granted!");
-                            System.out.println("What do you wish to do now?");
-
-                            postAccessClient();
-                        } else {
-                            System.out.println("Wrong password");
-                        }
-                    } else {
-                        System.out.println("Wrong username/email");
-                    }
-                }
-            } else if (input == 3) {
-                run = false;
-            } else {
-                System.out.println("Invalid option");
+            switch (input) {
+                case 1 -> addClient();
+                case 2 -> logInClient();
+                case 3 -> run = false;
+                default -> System.out.println("Invalid option");
             }
         }
     }
@@ -181,22 +188,20 @@ public class LibraryApp {
                     System.out.println("5: Back");
                     int input = sc.nextInt();
 
-                    if (input == 1) {
-                        System.out.println("Input title of book to check info: ");
-                        sc.nextLine();
-                        String title = sc.nextLine();
-                        getBookInfo(title);
-                    } else if (input == 2) {
-                        getBookStock();
-                    } else if (input == 3){
-                        getLoanedBooks();
-                    } else if (input == 4) {
-                        addBook();
-                    } else if (input == 5) {
-                        run = false;
+                    switch (input) {
+                        case 1 -> getBookInfo();
+                        case 2 -> getBookStock();
+                        case 3 -> getLoanedBooks();
+                        case 4 -> addBook();
+                        case 5 -> run = false;
+                        default -> System.out.println("Invalid option");
                     }
                 }
+            } else {
+                System.out.println("Wrong password");
             }
+        } else {
+            System.out.println("Wrong username");
         }
     }
 
@@ -210,11 +215,20 @@ public class LibraryApp {
     }
 
     public static void getBookStock() {
-        for (Book book : books){
-            System.out.println(book.getTitle() + " has " + book.getStock() + " available copies");
+        System.out.println("Input title of book to check info: ");
+        sc.nextLine();
+        String title = sc.nextLine();
+        Book foundBook = findBook(title);
+        if (books.isEmpty()) {
+            System.out.println("No books found!");
+            return;
+        } else if (foundBook == null) {
+            System.out.println("Book not found!");
+            return;
         }
+        System.out.println(" stock: " + foundBook.getStock());
     }
-
+//
     public static void getLoanedBooks(){
         for (Loan loan : loans){
             System.out.println(loan.toString());
@@ -261,13 +275,15 @@ public class LibraryApp {
         }
     }
 
-    public static String getBookInfo(String title) {
-        Book book = findBook(title);
-        if (book == null){
-            System.out.println("Book not found");
-        } else {
-            return book.toString();
+    public static void getBookInfo() {
+        System.out.println("Input title of book to check info: ");
+        sc.nextLine();
+        String title = sc.nextLine();
+        Book foundBook = findBook(title);
+        if (foundBook == null) {
+            System.out.println("No book found!");
+            return;
         }
-        return null;
+        System.out.println(foundBook.toStr());
     }
 }

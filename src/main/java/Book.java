@@ -21,8 +21,7 @@ public class Book {
         return stock;
     }
 
-    @Override
-    public String toString() {
+    public String toStr() {
         return this.id + ";" + this.title + ";" + this.author + ";" + this.publishDate + ";" + this.stock;
     }
 }
