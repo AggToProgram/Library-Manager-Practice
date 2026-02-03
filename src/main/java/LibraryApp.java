@@ -1,5 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class LibraryApp {
@@ -251,20 +248,21 @@ public class LibraryApp {
             System.out.println("Input stock: ");
             int stock = sc.nextInt();
 
-            newBooks.add(new Book(id, title, author, publishDate, stock));
-            books.add(new Book(id, title, author, publishDate, stock));
+            Book book = new Book(id, title, author, publishDate, stock);
+            newBooks.add(book);
+            books.add(book);
 
             System.out.println("Do you wish to add any other book? Y/N");
             sc.nextLine();
             String input = sc.nextLine();
 
             if (input.equalsIgnoreCase("N")) {
-                try (BufferedWriter br = Files.newBufferedWriter(libraryFile, StandardOpenOption.APPEND)) {
-                    for (Book book : newBooks) {
-                        br.newLine();
-                        String line = book.toString();
-                        br.write(line);
-                        System.out.println(book.getTitle() + " added to the library");
+                try (BufferedWriter bw = Files.newBufferedWriter(libraryFile, StandardOpenOption.APPEND)) {
+                    for (Book b : newBooks) {
+                        String line = b.toStr();
+                        bw.write(line);
+                        bw.newLine();
+                        System.out.println(b.getTitle() + " added to the library");
                     }
                     newBooks.clear();
                 } catch (IOException ioe) {
