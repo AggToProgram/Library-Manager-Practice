@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,6 +26,12 @@ public class LibraryApp {
     public static boolean running = true;
 
 
+    public static void loadAllData(){
+        FileService.loadBooks(libraryFile, books);
+        FileService.loadClients(clientsFile, clients);
+        FileService.loadLoans(loansFile, loans);
+    }
+
     public static void mainAccess(){
         System.out.println("Hello and welcome to the Megalovania Library!");
 
@@ -51,54 +55,6 @@ public class LibraryApp {
                 default:
                     System.out.println("Invalid option");
             }
-        }
-    }
-
-    public static Book parseBook(String line){
-        String[] parts = line.split(";");
-        return new Book(Integer.parseInt(parts[0]), parts[1], parts[2], parts[3], Integer.parseInt(parts[4]));
-    }
-
-    public static Client parseClient(String line){
-        String[] parts = line.split(";");
-        return new Client(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]));
-    }
-
-    public static Loan parseLoan(String line){
-        String[] parts = line.split(";");
-        return new Loan(parts[0], parts[1], Integer.parseInt(parts[2]));
-    }
-
-    public static void loadBooks(){
-        try (BufferedReader br = Files.newBufferedReader(libraryFile, Charset.defaultCharset())){
-            String line;
-            while ((line = br.readLine()) != null){
-                books.add(parseBook(line));
-            }
-        } catch (IOException ioe){
-            System.out.println(ioe.getMessage());
-        }
-    }
-
-    public static void loadClients(){
-        try (BufferedReader br = Files.newBufferedReader(clientsFile, Charset.defaultCharset())){
-            String line;
-            while ((line = br.readLine()) != null){
-                clients.add(parseClient(line));
-            }
-        } catch (IOException ioe){
-            System.out.println(ioe.getMessage());
-        }
-    }
-
-    public static void loadLoans(){
-        try (BufferedReader br = Files.newBufferedReader(loansFile, Charset.defaultCharset())){
-            String line;
-            while ((line = br.readLine()) != null){
-                loans.add(parseLoan(line));
-            }
-        } catch (IOException ioe){
-            System.out.println(ioe.getMessage());
         }
     }
 
