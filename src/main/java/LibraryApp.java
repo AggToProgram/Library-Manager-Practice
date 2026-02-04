@@ -18,6 +18,7 @@ public class LibraryApp {
 
     private static final ArrayList<Book> newBooks = new ArrayList<>();
     private static final ArrayList<Book> books = new ArrayList<>();
+    private static final ArrayList<Client> newClients = new ArrayList<>();
     private static final ArrayList<Client> clients = new ArrayList<>();
     private static final ArrayList<Loan> loans = new ArrayList<>();
 
@@ -43,31 +44,28 @@ public class LibraryApp {
             int input = sc.nextInt();
 
             switch (input) {
-                case 1:
-                    accessAsManager();
-                    break;
-                case 2:
-                    accessAsClient();
-                    break;
-                case 3:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option");
+                case 1 -> accessAsManager();
+                case 2 -> accessAsClient();
+                case 3 -> running = false;
+                default -> System.out.println("Invalid option");
             }
         }
     }
 
     public static void addClient(){
-        clients.add(new Client());
+        Client client = new Client();
+        clients.add(client);
+        newClients.add(client);
+
         try (BufferedWriter bw = Files.newBufferedWriter(clientsFile, StandardOpenOption.APPEND)) {
-            for (Client client : clients) {
-                bw.write(client.toString());
+            for (Client c : newClients) {
+                bw.write(c.toString());
                 bw.newLine();
             }
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
+        newClients.clear();
     }
 
     public static void logInClient(){
