@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class LibraryApp {
     public static Path p = Paths.get("data");
-    public static Path libraryFile = p.resolve("library.txt");
+    public static Path libraryFile = p.resolve("books.txt");
     public static Path clientsFile = p.resolve("clients.txt");
     public static Path loansFile = p.resolve("loans.txt");
 
@@ -189,20 +189,7 @@ public class LibraryApp {
     public static void addBook() {
         boolean run = true;
         while (run) {
-            System.out.println("Type in ID: ");
-            sc.nextLine();
-            int id = sc.nextInt();
-            System.out.println("Type in book title: ");
-            sc.nextLine();
-            String title = sc.nextLine();
-            System.out.println("Type in author: ");
-            String author = sc.nextLine();
-            System.out.println("Type in publishing date: ");
-            String publishDate = sc.nextLine();
-            System.out.println("Input stock: ");
-            int stock = sc.nextInt();
-
-            Book book = new Book(id, title, author, publishDate, stock);
+            Book book = new Book();
             newBooks.add(book);
             books.add(book);
 
